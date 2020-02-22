@@ -1,0 +1,90 @@
+Doc updated: 01/12/20
+
+Authors: Ansel Tessier (ansel.tessier@gmail.com) & William Cantera (wcantera@udel.edu)
+
+
+Running:
+  - cd into TRIC_platform_01/src/Waypoint_GUI
+  - run Run_GUI.py with python 2.7
+
+Usage:
+  - Right after running, hit 'g' then Enter to display graphics
+  - With the plot displayed:
+    - right click on a point to delete it.
+    - Hit 'N' to make new points
+      - click and drag on a point to insert a new segment after it,
+      - once a new segment has been established, simply left click to
+        add additional points
+    - Or hit 'M' to move existing ones.
+      - Click and drag a point to move it
+    - All changes are saved automatically
+
+  - To change the path to be displayed, go into mod_plot.py and change the file
+    path in the modify_waypoint_path argument (should be line 44) (e.g. modify_waypoint_path('../waypoint_calibration/georgetown_small_loop.yml'))
+
+Current issues:
+  None currently found
+
+Documentation:
+
+  waypoint_modifier class docs:
+
+    Class to modify an existing waypoint path, both by updating the position of
+    established points inserting new points, and deleting old points
+
+        Supporting Class node:
+            Attributes:
+                data: the value a particular node is responsible for
+                next: the node that this node references
+
+            Methods:
+                NA
+
+    Attributes:
+        head: head node of linked list
+        tail: tail node of linked list
+        datum: gps point that is the origin of the workspace, Cartesian points are
+        relative to it
+
+
+    Methods:
+        read_data: takes in the existing waypoints form yml file, and inserts them
+        into it
+
+        cartesian_from_gps (Author, Adam Stager): takes a gps lat/lon coordinate,
+        and converts it into a Cartesian coordinate relative to a datum (a gps
+        point located at the origin of the workspace)
+
+
+        node: supporting class for linked list data structure, may not be needed, will
+        be addressed soon after 1/3/20
+
+
+        gps_from_cartesian: converts a Cartesian point relative to the datum to a
+        tuple (lat, lon)
+
+
+        save: saves waypoints in a new dictionary that then overwrites the specified way point file
+
+  WaypointGUI class docs:
+
+    CLASS - WaypointGUI
+    This class handles the mouse events that come from the user. Coordinate points
+    can be deleted, moved, or created. There are options to allow panning the screen
+    by switching modes via a keyboard button press.
+
+        ATTRIBUTES: basis (coordinate), the basis is the coordinate point which is selected
+                    site,
+                    state (integer), the state is the current mode the mouse is in, be it
+                           deleting, inserting, or panning
+                    was_right_clicked (boolean), keeps track of whether or not a
+                                                 right click happened.
+
+
+        METHODS: __init__: constructor
+                 onpick1: Moves the selected coordinate point to the chosen location
+                 delete: Handles removing coordinate points from the screen
+                 remove: Helper method for handling the on pick events in delete
+                 press: Pairs keyboard input with an integer to help interpret what
+                        action should be taken for what button was pressed.
+                 onclick: Places a new coordinate point and moves it.
